@@ -1,0 +1,73 @@
+Ques-->
+You are given an integer array nums. You need to create a 2D array from nums satisfying the following conditions:
+
+The 2D array should contain only the elements of the array nums.
+Each row in the 2D array contains distinct integers.
+The number of rows in the 2D array should be minimal.
+Return the resulting array. If there are multiple answers, return any of them.
+
+Note that the 2D array can have a different number of elements on each row.
+
+
+Test Case:-->
+Input: nums = [1,3,4,1,2,3,1]
+Output: [[1,3,4,2],[1,3],[1]]
+
+
+Sol-->
+class Solution {
+    public List<List<Integer>> findMatrix(int[] nums) {
+       HashMap<Integer,Integer>map=new HashMap<>();
+       for(int i=0;i<nums.length;i++) 
+       {
+           if(map.containsKey(nums[i]))
+           {
+               int v=map.get(nums[i]);
+               map.put(nums[i],v+1);
+           }else
+           {
+               map.put(nums[i],1);
+           }
+       }
+     List<List<Integer>>ans=new ArrayList<>();
+     int i=0;
+     for(i=0;i<nums.length-1;i++)
+     {
+         List<Integer>temp=new ArrayList<>();
+         for(int j=i+1;j<nums.length;j++)
+         {
+             if(!temp.contains(nums[i]))
+             {
+                 if(map.get(nums[i])!=0){
+                 temp.add(nums[i]);
+                 int v=map.get(nums[i]);
+                 map.put(nums[i],v-1);
+             }
+             }
+              if(!temp.contains(nums[j]))
+             {
+                 if(map.get(nums[j])!=0){
+                 temp.add(nums[j]);
+                 int v=map.get(nums[j]);
+                 map.put(nums[j],v-1);
+             }
+             }
+         }
+             if(temp.size()!=0)
+             {
+                 ans.add(temp);
+             }
+
+         }
+         if(map.get(nums[i])!=0)
+         {
+             List<Integer>temp1=new ArrayList<>();
+             temp1.add(nums[i]);
+             ans.add(temp1);
+         }
+     
+
+       return ans;
+    }
+}
+
