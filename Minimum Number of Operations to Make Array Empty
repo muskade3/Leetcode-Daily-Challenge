@@ -1,0 +1,72 @@
+Ques:->
+You are given a 0-indexed array nums consisting of positive integers.
+
+There are two types of operations that you can apply on the array any number of times:
+
+Choose two elements with equal values and delete them from the array.
+Choose three elements with equal values and delete them from the array.
+Return the minimum number of operations required to make the array empty, or -1 if it is not possible.
+
+ Test Cases:->
+
+Example 1:
+
+Input: nums = [2,3,3,2,2,4,2,3,4]
+Output: 4
+
+Example 2:
+
+Input: nums = [2,1,2,2,3,3]
+Output: -1
+
+Sol:->
+class Solution {
+    public int minOperations(int[] nums) {
+    
+       HashMap<Integer,Integer>map=new HashMap<>();
+       for(int i=0;i<nums.length;i++)
+       {
+           if(map.containsKey(nums[i]))
+           {
+               int v=map.get(nums[i]);
+               map.put(nums[i],v+1);
+           }else
+           {
+               map.put(nums[i],1);
+           }
+       }
+       int ans=0;
+       for(int i=0;i<nums.length;i++)
+       {
+           if(map.containsKey(nums[i]))
+           {
+               int v=map.get(nums[i]);
+               if(v==1)
+               {
+                   return -1;
+               }else{
+            while(v>0)
+            {
+            if(v%3==0)
+               {
+int d=v/3;
+ans=ans+d;
+v=0;
+map.put(nums[i],v);
+               }else 
+               {
+v=v-2;
+map.put(nums[i],v);
+ans++;
+               }
+           }
+          
+
+       }
+       }
+       }
+     
+       return ans;
+    
+    }
+}
