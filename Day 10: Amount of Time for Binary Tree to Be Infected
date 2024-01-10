@@ -1,0 +1,92 @@
+Ques:- You are given the root of a binary tree with unique values, and an integer start. At minute 0, an infection starts from the node with value start.
+
+Each minute, a node becomes infected if:
+
+The node is currently uninfected.
+The node is adjacent to an infected node.
+Return the number of minutes needed for the entire tree to be infected.
+
+Input: root = [1,5,3,null,4,10,6,9,2], start = 3
+Output: 4
+Explanation: The following nodes are infected during:
+- Minute 0: Node 3
+- Minute 1: Nodes 1, 10 and 6
+- Minute 2: Node 5
+- Minute 3: Node 4
+- Minute 4: Nodes 9 and 2
+It takes 4 minutes for the whole tree to be infected so we return 4.
+
+Sol:-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public static void convert(TreeNode root,int parent, HashMap<Integer,ArrayList<Integer>>map)
+    {
+        if(root==null)
+        {
+            return ;
+        }
+        if(!map.containsKey(root.val))
+        {
+            map.put(root.val,new ArrayList<>());
+        }
+        ArrayList<Integer>l=map.get(root.val);
+        if(parent!=-1)
+        {
+l.add(parent);
+        }
+        if(root.left!=null)
+        {
+           l.add(root.left.val); 
+        }
+        if(root.right!=null)
+        {
+           l.add(root.right.val);  
+        }
+        convert(root.left,root.val,map);
+ convert(root.right,root.val,map);
+
+    }
+    public int amountOfTime(TreeNode root, int start) {
+        HashMap<Integer,ArrayList<Integer>>map=new HashMap<>();
+       convert(root,-1,map);
+       Queue<Integer>que=new LinkedList<>();
+       que.add(start);
+       int min=0;
+       Set<Integer>visited=new HashSet<>();
+       visited.add(start);
+       while(!que.isEmpty())
+       {
+           int level=que.size();
+           while(level>0)
+           {
+               int curr=que.poll();
+               for(int num:map.get(curr))
+               {
+                   if(!visited.contains(num))
+                   {
+                       visited.add(num);
+                       que.add(num);
+                   }
+               }
+               level--;
+           }
+           min++;
+
+       }
+       return min-1;
+    }
+}
