@@ -1,0 +1,51 @@
+Ques:- Partition Array for Maximum Sum
+Given an integer array arr, partition the array into (contiguous) subarrays of length at most k. After partitioning, each subarray has their values changed to become the maximum value of that subarray.
+
+Return the largest sum of the given array after partitioning. Test cases are generated so that the answer fits in a 32-bit integer.
+
+ Example 1:
+
+Input: arr = [1,15,7,9,2,5,10], k = 3
+Output: 84
+Explanation: arr becomes [15,15,15,9,10,10,10]
+
+Example 2:
+
+Input: arr = [1,4,1,5,7,3,6,1,9,9,3], k = 4
+Output: 83
+
+Example 3:
+
+Input: arr = [1], k = 1
+Output: 1
+
+Sol->
+class Solution {
+    
+    public static int solve(int i,int[]arr,int k,int[]dp)
+    {
+        if(dp[i]!=-1)
+        {
+            return dp[i];
+        }
+        int n=arr.length;
+        if(i>=n)
+        {
+            return 0;
+        }
+        int result=0;
+        int max=-1;
+        for(int j=i;j<n&& j-i+1<=k;j++)
+        {
+max=Math.max(max,arr[j]);
+result=Math.max(result,(j-i+1)*max+ solve(j+1,arr,k,dp));
+        }
+        return dp[i]=result;
+    }
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int n=arr.length;
+        int[]dp=new int[n+1];
+        Arrays.fill(dp,-1);
+       return solve(0,arr,k,dp) ;
+    }
+}
