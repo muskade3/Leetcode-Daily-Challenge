@@ -1,0 +1,50 @@
+class Solution {
+    public static int helper(int [][]grid,int row,int col1,int col2,int[][][]dp)
+    {
+        int m=grid.length;
+        int n=grid[0].length;
+        if(row>=m)
+        {
+return 0;
+        }
+        if(dp[row][col1][col2]!=-1)
+        {
+            return dp[row][col1][col2];
+        }
+        int cheery=grid[row][col1];
+        if(col1!=col2)
+        {
+            cheery+=grid[row][col2];
+        }
+        int ans=0;
+        for(int val1=-1;val1<=1;val1++)
+        {
+            //r1
+            for(int val2=-1;val2<=1;val2++)
+            //r2
+            {
+                int new_row=row+1;
+                int new_col1=col1+val1;
+                int new_col2=col2+val2;
+                if(new_col1>=0&&new_col2<n&&new_col2>=0&&new_col1<n){
+                 ans=Math.max(ans,helper(grid,new_row,new_col1,new_col2,dp));
+            }
+            }
+        }
+        return dp[row][col1][col2]= cheery+ans;
+    }
+
+    public int cherryPickup(int[][] grid) {
+         int m=grid.length;
+int n =grid[0].length;
+int[][][]dp=new int[71][71][71];
+for(int i=0;i<71;i++)
+{
+    for(int j=0;j<71;j++)
+    {
+         Arrays.fill(dp[i][j], -1);
+    }
+}
+return helper(grid,0,0,n-1,dp);
+    }
+}
