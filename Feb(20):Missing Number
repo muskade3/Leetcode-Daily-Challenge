@@ -1,0 +1,24 @@
+class Solution {
+    public int missingNumber(int[] nums) {
+        Arrays.sort(nums);
+        int n=nums.length;
+        ArrayList<Integer>x=new ArrayList<>();
+        for(int i=0;i<=n;i++)
+        {
+            x.add(i);
+        }
+         ArrayList<Integer>num=new ArrayList<>();
+        for(int i=0;i<n;i++)
+        {
+            num.add(nums[i]);
+        }
+        for(int i=0;i<=n;i++)
+        {
+            if(!num.contains(x.get(i)))
+            {
+                return x.get(i);
+            }
+        }
+        return -1;
+    }
+}
