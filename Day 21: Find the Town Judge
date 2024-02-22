@@ -1,0 +1,57 @@
+class Solution {
+    public int findJudge(int n, int[][] trust) {
+        if(n==1&&trust.length==0)
+       {
+           return n;
+       }
+       if(trust.length==0)
+       {
+           return -1;
+       }
+        HashMap<Integer,ArrayList<Integer>>map=new HashMap<>();
+for(int i=0;i<trust.length;i++)
+        {
+            int x=trust[i][0];
+            int y=trust[i][1];
+        if(map.containsKey(x))
+        {
+            ArrayList<Integer> l=map.get(x);
+            l.add(y);
+            map.put(x,l);
+        }else
+        {
+            ArrayList<Integer>m=new ArrayList<>();
+            m.add(y);
+            map.put(x,m);
+        }
+
+        }
+int x=-1;
+        for(int i=1;i<=n;i++)
+        {
+            if(!map.containsKey(i))
+            {
+                x=i;
+            }
+        }
+
+for(int i=1;i<=n;i++)
+{
+    if(i!=x)
+    {
+        if(map.containsKey(i))
+        {
+            ArrayList<Integer>temp=map.get(i);
+            
+                if(!temp.contains(x))
+                {
+return -1;
+                }
+           
+        }
+    }
+}
+return x;
+    }
+        
+    }
