@@ -1,0 +1,60 @@
+class Solution {
+    public int bagOfTokensScore(int[] tokens, int power) {
+        Arrays.sort(tokens);
+        if(tokens.length==1)
+        {
+            if(tokens[0]>power)
+            {
+                return 0;
+            }else
+            {
+                return 1;
+            }
+        }
+        if(tokens.length==2)
+        {
+            int max=Math.min(tokens[0],tokens[1]);
+            {
+                if(max<=power)
+                {
+                    return 1;
+                }else
+                {
+                    return 0;
+                }
+            }
+        }
+        int s=0;
+        int e=tokens.length-1;
+        int ans=0;
+        while(s<=e)
+        {
+            if(tokens[s]<=power)
+            {
+                //Facing the possibility of buying at a loss of token[s] money, 
+                //but gaining some points
+                power=power-tokens[s];
+                ans++;
+                s++;
+
+            
+            }else if(s<e && tokens[e]>power && ans>0)
+            {
+               
+//Facing the option of selling with a gain of token[e] money, 
+//with the condition for facing down being at least 1, 
+//hence we applied the condition ans > 0.
+power=power+tokens[e];
+                ans--;
+                e--;
+            } else
+            {
+                return ans;
+            }
+
+            
+        }
+        return ans;
+        
+    }
+}
